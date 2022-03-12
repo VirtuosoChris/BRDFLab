@@ -1,0 +1,243 @@
+/*
+	Copyright (c) 2009.
+		Adria Fores
+		Sumanta N. Pattanaik
+		Carles Bosch
+		Xavier Pueyo
+
+	Contact: adriafores@gmail.com	
+
+	This file is part of BRDFLab.
+
+    BRDFLab is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    BRDFLab is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with BRDFLab.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+vertex_program coordinateTransformations_VS glsl	
+{
+	source coordinateTransformations.glsl
+}
+
+vertex_program Lobes_VS glsl	
+{
+	source Lobes.glsl
+	attach coordinateTransformations_VS
+}
+
+
+geometry_program DisplayComputeNormalGS glsl
+{
+	source DisplayComputeNormalGS.glsl
+	input_operation_type triangle_list
+	output_operation_type triangle_strip
+	max_output_vertices 3
+}
+
+
+// GLSL Vertex shader definition
+vertex_program AnalyticBRDF_VS glsl			
+{
+	source AnalyticBRDF_VS.glsl
+
+	default_params					
+	{
+		param_named incidentVector float3 0 1 1
+		
+	}
+}
+
+// GLSL Pixel shader definition
+fragment_program AnalyticBRDF_FS glsl
+{
+	source AnalyticBRDF_FS.glsl
+
+	default_params					
+	{
+		param_named color float4 0 0 1 1
+		param_named_auto eyePos camera_position
+	}
+}
+
+
+
+material AnalyticBRDF
+{
+
+
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+            
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref AnalyticBRDF_VS	
+			{
+			}
+
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref AnalyticBRDF_FS	
+			{
+			}
+
+		}
+	}
+}
+
+// GLSL Pixel shader definition
+fragment_program FittedBRDF_FS glsl
+{
+	source AnalyticBRDF_FS.glsl
+
+	default_params					
+	{
+		param_named color float4 1 0 0 1
+		param_named_auto eyePos camera_position
+	}
+}
+
+
+
+material FittedBRDF
+{
+
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+					
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref AnalyticBRDF_VS	
+			{
+			}
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref FittedBRDF_FS	
+			{
+			}
+
+		}
+	}
+}
+
+
+
+
+// GLSL Pixel shader definition
+vertex_program Display3DTextureBRDF_VS glsl
+{
+	source Display3DTextureBRDF_VS.glsl
+	attach coordinateTransformations_VS
+
+	default_params					
+	{
+		param_named incidentVector float3 0 1 1
+		param_named cubeRoot float 1.
+		param_named displayChannel float3 1 0 0
+	}
+}
+
+// GLSL Pixel shader definition
+fragment_program Display3DTextureBRDF_FS glsl
+{
+	source Display3DTextureBRDF_FS.glsl
+
+	default_params					
+	{
+//		param_named color float4 0 1 0 1
+		param_named_auto eyePos camera_position
+	}
+}
+
+
+
+
+
+material Display3DTextureBRDF
+{
+
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+					
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref Display3DTextureBRDF_VS
+			{
+			}
+//			geometry_program_ref DisplayComputeNormalGS
+//			{
+//			}			
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref Display3DTextureBRDF_FS	
+			{
+			}
+
+		}
+	}
+}
+
+// GLSL Pixel shader definition
+vertex_program Display2DTextureBRDF_VS glsl
+{
+	source Display2DTextureBRDF_VS.glsl
+	attach coordinateTransformations_VS
+
+	default_params					
+	{
+//		param_named incidentVector float3 0 1 1
+		param_named cubeRoot float 1.
+//		param_named displayChannel float3 1 0 0
+	}
+}
+
+// GLSL Pixel shader definition
+fragment_program Display2DTextureBRDF_FS glsl
+{
+	source Display2DTextureBRDF_FS.glsl
+
+	default_params					
+	{
+		param_named_auto eyePos camera_position
+	}
+}
+
+material Display2DTextureBRDF
+{
+
+
+
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+			
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref Display2DTextureBRDF_VS
+			{
+			}
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref Display2DTextureBRDF_FS	
+			{
+			}
+
+		}
+	}
+}

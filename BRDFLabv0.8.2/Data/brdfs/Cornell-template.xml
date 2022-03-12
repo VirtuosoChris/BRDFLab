@@ -1,0 +1,77 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Name>MainBRDF</Name>
+  <Type>Analytic</Type>
+  <LobeCombination>Fixed</LobeCombination>
+  <Parameters nLobes="12" nChannels="3" >
+   <Lobe channel="0" >
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters value="1" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters value="1" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters value="1" />
+   </Lobe>
+   <Lobe channel="0" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="0" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="0" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="5" />
+   </Lobe>
+  </Parameters>
+ </Material>
+</BRDF>

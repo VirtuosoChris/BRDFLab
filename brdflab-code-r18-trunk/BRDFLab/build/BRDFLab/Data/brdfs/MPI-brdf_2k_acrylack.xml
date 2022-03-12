@@ -1,0 +1,43 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Type>CarPaintBRDFDatabase</Type>
+  <URL>http://www.mpi-inf.mpg.de/~guenther/carpaint/</URL>
+  <Name>../Data/measured/CarPaint/brdf_2k_acrylack</Name>
+  <Format>isotropic</Format>
+ </Material>
+ <Fitting error="0" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>MPI-CookTorrance</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="3" nChannels="3" >
+    <ScalingFactors channel0="0.42" channel1="0.32" channel2="0.1" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.28" channel1="0.26" channel2="0.006" />
+    <Lobe>
+     <Model>CookTorrance</Model>
+     <Type>Isotropic</Type>
+     <Parameters m="0.8" F0="0.9" />
+    </Lobe>
+    <ScalingFactors channel0="0.017" channel1="0.0075" channel2="0.0041" />
+    <Lobe>
+     <Model>CookTorrance</Model>
+     <Type>Isotropic</Type>
+     <Parameters m="0.015" F0="0.17" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+</BRDF>

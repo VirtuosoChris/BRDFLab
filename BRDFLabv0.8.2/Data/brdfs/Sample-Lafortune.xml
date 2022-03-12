@@ -1,0 +1,29 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Name>MainBRDF</Name>
+  <Type>Analytic</Type>
+  <LobeCombination>Linear</LobeCombination>
+  <Parameters nLobes="2" nChannels="3" >
+   <ScalingFactors channel0="0.2000000029802322" channel1="0.2000000029802322" channel2="0.2000000029802322" />
+   <Lobe>
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters/>
+   </Lobe>
+   <ScalingFactors channel0="1" channel1="1" channel2="1" />
+   <Lobe>
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1" Cz="1" Exponent="50" />
+   </Lobe>
+  </Parameters>
+ </Material>
+</BRDF>

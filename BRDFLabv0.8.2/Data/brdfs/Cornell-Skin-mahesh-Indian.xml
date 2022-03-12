@@ -1,0 +1,62 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Name>MainBRDF</Name>
+  <Type>Analytic</Type>
+  <LobeCombination>Fixed</LobeCombination>
+  <Parameters nLobes="9" nChannels="3" >
+   <Lobe channel="0" >
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters value="0.065704" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters value="0.043181" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>Lambertian</Model>
+    <Type>Isotropic</Type>
+    <Parameters value="0.049810" />
+   </Lobe>
+    <Lobe channel="0" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-0.418599" Cz="0.399808" Exponent="3.327653" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-0.418849" Cz="0.397372" Exponent="3.502029" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-0.663313" Cz="0.591432" Exponent="5.782860" />
+   </Lobe>
+    <Lobe channel="0" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1.030919" Cz="0.832314" Exponent="28.298369" />
+   </Lobe>
+   <Lobe channel="1" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1.030556" Cz="0.823648" Exponent="25.766759" />
+   </Lobe>
+   <Lobe channel="2" >
+    <Model>LafortuneIso</Model>
+    <Type>Isotropic</Type>
+    <Parameters Cxy="-1.042135" Cz="0.797070" Exponent="31.002562" />
+   </Lobe>
+  </Parameters>
+ </Material>
+</BRDF>

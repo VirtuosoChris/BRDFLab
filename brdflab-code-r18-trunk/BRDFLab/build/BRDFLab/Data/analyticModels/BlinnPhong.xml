@@ -1,0 +1,46 @@
+<!DOCTYPE BRDFModel>
+<AnalyticBRDFModel name="BlinnPhong" type="Isotropic" specularLobeDirection="HalfVector">
+  <Parameters>
+    <Parameter name="Exponent" defaultVal="5." lowBound="0." highBound="1.0e+5"/>
+  </Parameters>;
+  <Equation>
+    hx= ux+vx;
+    hy= uy+vy;
+    hz= uz+vz;
+
+    norm = sqrt(hx*hx+hy*hy+hz*hz);
+
+    cosDelta = hz/norm;
+
+    if(cosDelta>0,cosDelta^(Exponent)*(Exponent+2.)/(2*_pi),0.)
+  </Equation>
+  <Equation_GLSL>
+    float BlinnPhongBRDF(vec3 u, vec3 v, int j)
+    {
+    vec3 h = normalize(u+v);
+    float dotNH = h.z;
+    float nfactor = (params[j]+2.) * 0.159155;	// 1/(2.*PI)
+
+    if(dotNH > 0.)
+      return pow(dotNH,params[j]) * nfactor;
+    else
+      return 0.;
+    }
+
+  </Equation_GLSL>
+  <PDF_GLSL>
+    float BlinnPhongPDF(vec3 h, vec3 v, int j)
+    {
+     vec3 h2 = normalize(h+v);
+
+     return (params[j]+1.)*pow(abs(h.z),params[j])/(6.28319*4.*dot(v,h2));
+    }
+  </PDF_GLSL>
+  <ImportanceSampling_GLSL>
+    vec2 BlinnPhongImportanceSampling(vec2 rand, int j)
+    {
+    return vec2(2.*3.141519*rand.x,acos(pow(rand.y,(1./(params[j]+1.)))));
+    }
+  </ImportanceSampling_GLSL>
+</AnalyticBRDFModel>
+

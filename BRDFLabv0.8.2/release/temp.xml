@@ -1,0 +1,163 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Type>MERLBRDFDatabase</Type>
+  <URL>http://www.merl.com/brdf/</URL>
+  <Name>../Data/measured/MERL/blue-metallic-paint.binary</Name>
+  <Format>isotropic</Format>
+ </Material>
+ <Fitting error="0.00758" readOnly="true" optimizerName="none">
+  <Material>
+   <Name>Ngan-Ward</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.008779999800026417" channel1="0.004600000102072954" channel2="0.01439999975264072"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.08100000023841858" channel1="0.06639999896287918" channel2="0.1000000014901161"/>
+    <Lobe>
+     <Model>Ward</Model>
+     <Type>Anisotropic</Type>
+     <Parameters ax="0.2389999926090241"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.00746" readOnly="true" optimizerName="none">
+  <Material>
+   <Name>Ngan-WardDuer</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.01530000008642674" channel1="0.009940000250935555" channel2="0.02710000053048134"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.04720000177621841" channel1="0.03860000148415566" channel2="0.05240000039339066"/>
+    <Lobe>
+     <Model>WardDuer</Model>
+     <Type>Anisotropic</Type>
+     <Parameters ax="0.2450000047683716"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.0124" readOnly="true" optimizerName="none">
+  <Material>
+   <Name>Ngan-BlinnPhong</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.01520000025629997" channel1="0.009730000048875809" channel2="0.01769999973475933"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.02160000056028366" channel1="0.01769999973475933" channel2="0.02910000085830689"/>
+    <Lobe>
+     <Model>BlinnPhong</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Exponent="39.29999923706055"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.00755" readOnly="true" optimizerName="none">
+  <Material>
+   <Name>Ngan-Lafortune</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.01460000034421682" channel1="0.009320000186562538" channel2="0.02089999988675118"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.1289999932050705" channel1="0.1049999967217445" channel2="0.1599999964237213"/>
+    <Lobe>
+     <Model>LafortuneIso</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Cxy="-0.593999981880188" Cz="0.5419999957084656" Exponent="13.69999980926514"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.00683" readOnly="true" optimizerName="none">
+  <Material>
+   <Name>Ngan-CookTorrance</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.01350000035017729" channel1="0.00848000030964613" channel2="0.02439999952912331"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.07190000265836716" channel1="0.05889999866485596" channel2="0.08129999786615372"/>
+    <Lobe>
+     <Model>CookTorrance</Model>
+     <Type>Anisotropic</Type>
+     <Parameters m="0.2310000061988831" F0="0.6380000114440918"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.00643" readOnly="true" optimizerName="none">
+  <Material>
+   <Name>Ngan-AshikhminShirley</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.009829999879002571" channel1="0.005530000198632479" channel2="0.02040000073611736"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.06060000136494637" channel1="0.0494999997317791" channel2="0.06840000301599503"/>
+    <Lobe>
+     <Model>AshikhminShirley</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Exponent="28.10000038146973" F0="0.9990000128746033"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0" readOnly="false" optimizerName="none">
+  <Material>
+   <Name>Fit-0</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.005488388763430007" channel1="0.00406911300663711" channel2="0.01404134829486363"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.1153273579998682" channel1="0.1114437192622182" channel2="0.2456798353790424"/>
+    <Lobe>
+     <Model>LafortuneIso</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Cxy="-0.8513557808087189" Cz="0.8036768831100201" Exponent="17.2956909781666"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+</BRDF>

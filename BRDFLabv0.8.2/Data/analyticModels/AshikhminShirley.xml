@@ -1,0 +1,81 @@
+<!DOCTYPE BRDFModel>
+<AnalyticBRDFModel name="AshikhminShirley" type="Isotropic" specularLobeDirection="HalfVector">
+  <Parameters>
+    <Parameter name="F0" defaultVal="1." lowBound="-100." highBound="400."/>
+    <Parameter name="Exponent" defaultVal="5." lowBound="-100." highBound="5000."/>
+  </Parameters>;
+  <Equation>
+    hx= ux+vx;
+    hy= uy+vy;
+    hz= uz+vz;
+    norm = sqrt(hx*hx+hy*hy+hz*hz);
+    hx = hx/norm;
+    hy = hy/norm;
+    hz = hz/norm;
+    dotVH = vx*hx+vy*hy+vz*hz;
+    (Exponent+1.)/(8.*3.14159265)*(hz^Exponent/(dotVH*max(uz,vz)))*(F0+(1.-F0)*(max(0.,1.-dotVH))^5)
+  </Equation>
+  <Equation_GLSL>
+    float AshikhminShirleyBRDF(vec3 u, vec3 v, int j)
+    {
+    float F0 = params[j];
+    float e = params[j+1];
+
+    vec3 h = normalize(u+v);
+    vec3 n = vec3(0.,0.,1.);
+
+    return (e+1.)/(8.*3.14159265)*((pow(dot(n,h),e))/(dot(v,h)*max(dot(n,u),dot(n,v))))*fresnel(F0,dot(v,h));
+    }
+  </Equation_GLSL>
+  <PDF_GLSL>
+    float AshikhminShirleyPDF(vec3 u, vec3 v, int j)
+    {
+    float e = params[j+1];
+    
+    vec3 h = normalize(u+v);
+    float D = (e+2.)*pow(max(0.,abs(h.z)), e)/6.28319;
+
+    return D / (2.*3.14159*4.*dot(v,h));
+    }
+  </PDF_GLSL>
+  <ImportanceSampling_GLSL>
+    vec2 sampleFirstQuadrant(int j, float randx, float randy)
+    {
+    float e = params[j+1];
+    
+    vec2 dir;
+
+    dir.x = 3.141519 * randx * 0.5;
+
+    float cosphi = cos(dir.x);
+    float sinphi = sin(dir.x);
+
+    dir.y = acos(pow(randy,1./(e*cosphi*cosphi + e*sinphi*sinphi + 1.)));
+    
+    return dir;
+    }
+
+    vec2 AshikhminShirleyImportanceSampling(vec2 rand, int j)
+    {
+    vec2 dir = vec2(0.,0.);
+
+    if(rand.x U+003C 0.25){
+    dir = sampleFirstQuadrant(j, 4.*rand.x, rand.y);
+    }else if(rand.x U+003C 0.5){
+    rand.x = 4.*(0.5 - rand.x);
+    dir = sampleFirstQuadrant(j, rand.x, rand.y);
+    dir.x = 3.141519 - dir.x;
+    }else if(rand.x U+003C 0.75){
+    rand.x = 4.*(rand.x - 0.5);
+    dir = sampleFirstQuadrant(j, rand.x, rand.y);
+    dir.x += 3.141519;
+    }else{
+    rand.x = 4.*(1.-rand.x);
+    dir = sampleFirstQuadrant(j, rand.x, rand.y);
+    dir.x = 2.*3.141519 - dir.x;
+    }
+    return dir;
+    }
+  </ImportanceSampling_GLSL>
+</AnalyticBRDFModel>
+

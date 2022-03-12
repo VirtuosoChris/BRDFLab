@@ -1,0 +1,37 @@
+  <!DOCTYPE BRDF> 
+- <BRDF>
+- <Info>
+  <Program>BRDFLab</Program> 
+  <Version>0.1</Version> 
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL> 
+  <Contact>afores@ima.udg.edu</Contact> 
+  <Data>17/03/2009</Data> 
+  </Info>
+- <Material>
+  <Type>MERLBRDFDatabase</Type> 
+  <URL>http://www.merl.com/brdf/</URL> 
+  <Name>../Data/measured/MERL/blue-metallic-paint.binary</Name> 
+  <Format>isotropic</Format> 
+  </Material>
+- <Fitting error="7.499" readOnly="true" optimizerName="none">
+- <Material>
+  <Name>MA-Sample A-spec-Ward</Name> 
+  <Type>Analytic</Type> 
+  <LobeCombination>Linear</LobeCombination> 
+- <Parameters nLobes="2" nChannels="3">
+  <ScalingFactors channel0="24.8327" channel1="26.1408" channel2="24.1091" /> 
+- <Lobe>
+  <Model>Lambertian</Model> 
+  <Type>Isotropic</Type> 
+  <Parameters /> 
+  </Lobe>
+  <ScalingFactors channel0="22.2193" channel1="23.0994" channel2="19.2372" /> 
+- <Lobe>
+  <Model>Ward</Model> 
+  <Type>Isotropic</Type> 
+  <Parameters ax="-0.076032" /> 
+  </Lobe>
+  </Parameters>
+  </Material>
+  </Fitting>
+  </BRDF>

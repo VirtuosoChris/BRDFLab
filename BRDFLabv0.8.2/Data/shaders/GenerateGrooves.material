@@ -1,0 +1,65 @@
+/*
+	Copyright (c) 2009.
+		Adria Fores
+		Sumanta N. Pattanaik
+		Carles Bosch
+		Xavier Pueyo
+
+	Contact: adriafores@gmail.com	
+
+	This file is part of BRDFLab.
+
+    BRDFLab is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    BRDFLab is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with BRDFLab.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+// GLSL Vertex shader definition
+vertex_program GenerateGroovesVS glsl			
+{
+	source GenerateGroovesVS.glsl
+	
+}
+
+// GLSL Pixel shader definition
+fragment_program GenerateGroovesFS glsl
+{
+	source GenerateGroovesFS.glsl
+	
+}
+
+
+material GenerateGrooves
+{
+
+
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref GenerateGroovesVS	
+			{
+			}
+			
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref GenerateGroovesFS	
+			{
+			}
+
+
+		}
+	}
+}

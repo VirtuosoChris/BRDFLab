@@ -1,0 +1,47 @@
+<!DOCTYPE BRDFModel>
+ <!-- Implented by Kai Berger, TU Braunschweig, July 2010-->
+<AnalyticBRDFModel name="WardNeumann" type="Isotropic" specularLobeDirection="HalfVector">
+  <Parameters>
+    <Parameter name="ax" defaultVal="0.2" lowBound="-10." highBound="10."/>
+<Parameter name="alpha" defaultVal="0.17" lowBound="0." highBound="10."/>
+  </Parameters>;
+  <Equation>
+    hx= ux+vx;
+    hy= uy+vy;
+    hz= uz+vz;
+    norm = sqrt(hx*hx+hy*hy+hz*hz);
+    delta = acos(hz/norm);
+    1./max(uz,vz) * exp((-tan(delta)^2./(ax*ax))/(4.*3.1415926535*ax*ax))
+  </Equation>
+  <Equation_GLSL>
+    float WardNeumannBRDF(vec3 u, vec3 v, int j)
+    {
+    float ax = params[j];
+    vec3 n = vec3(0.,0.,1.);
+    vec3 h = normalize(u+v);
+    float delta = acos(dot(n,h));
+    return 1./max(dot(n,u),dot(n,v)) * exp((-pow(tan(delta),2.)/(ax*ax))/(4.*3.1415926535*ax*ax));    }
+  </Equation_GLSL>
+  <PDF_GLSL>
+    float WardNeumannPDF(vec3 u, vec3 v, int j)
+    {
+    float ax = params[j];
+    vec3 h = normalize(u+v);
+    vec2 half = cart2spherical(h);
+    return 1./(4.*3.14159*ax*ax*dot(h,v)*pow(h.z,3.))*exp(-(pow(tan(half.y),2.))*(pow(cos(half.x),2.)/(ax*ax)+pow(sin(half.x),2.)/ax*ax));
+    }
+  </PDF_GLSL>
+  <ImportanceSampling_GLSL>
+    vec2 WardNeumannImportanceSampling(vec2 rand, int j)
+    {
+    float ax = params[j];
+    vec2 dir;
+    // phi
+    dir.x = 2.*3.141519*rand.y; // as we have isotropic lobes param[x]/param[x] == 1.
+    // theta
+    dir.y = atan(sqrt(-log(rand.x)/(cos(rand.x)*cos(rand.x)/(ax*ax)+sin(rand.x)*sin(rand.x)/(ax*ax))));
+    return dir;
+    }
+  </ImportanceSampling_GLSL>
+</AnalyticBRDFModel>
+

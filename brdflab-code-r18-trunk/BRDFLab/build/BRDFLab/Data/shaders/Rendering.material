@@ -1,0 +1,187 @@
+/*
+	Copyright (c) 2009.
+		Adria Fores
+		Sumanta N. Pattanaik
+		Carles Bosch
+		Xavier Pueyo
+
+	Contact: adriafores@gmail.com	
+
+	This file is part of BRDFLab.
+
+    BRDFLab is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    BRDFLab is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with BRDFLab.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+fragment_program coordinateTransformations_FS glsl	
+{
+	source coordinateTransformations.glsl
+}
+
+//fragment_program Lobes_FS glsl
+//{
+//	source Lobes.glsl
+//}
+
+
+
+//// Point light (analytical BRDFs)
+
+// GLSL Vertex shader definition
+vertex_program PointLightAnalyticBRDF_VS glsl
+{
+	source PointLightAnalyticBRDF_VS.glsl
+	
+	default_params
+	{
+	}
+}
+
+fragment_program PointLightAnalyticBRDF_FS glsl
+{
+	source PointLightAnalyticBRDF_FS.glsl
+		
+	default_params
+	{
+		param_named_auto lightPos light_position 0
+		param_named_auto eyePos camera_position
+//		param_named ambient float 1.
+		//param_named prova float5 0 1 0 0 0
+	}	
+}
+
+
+material PointLightAnalyticBRDF
+{
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref PointLightAnalyticBRDF_VS	
+			{
+			}
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref PointLightAnalyticBRDF_FS	
+			{
+			}
+		}
+	}
+}
+
+
+//// Point light (discrete BRDFs)
+
+vertex_program PointLight3DTextureBRDF_VS glsl
+{
+	source PointLight3DTextureBRDF_VS.glsl
+	
+	default_params
+	{
+		param_named_auto worldMatrix world_matrix
+	}	
+}
+
+fragment_program PointLight3DTextureBRDF_FS glsl
+{
+	source PointLight3DTextureBRDF_FS.glsl
+	attach coordinateTransformations_FS
+		
+	default_params
+	{
+		param_named_auto lightPos light_position 0
+		param_named_auto eyePos camera_position
+//		param_named ambient float 1. 
+	}	
+}
+
+material PointLight3DTextureBRDF
+{
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref PointLight3DTextureBRDF_VS	
+			{
+			}
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref PointLight3DTextureBRDF_FS	
+			{
+			}
+		}
+	}
+}
+
+
+//// Environment mapping (analytical BRDFs)
+
+// GLSL Vertex shader definition
+vertex_program EnvMapAnalyticBRDF_VS glsl
+{
+	source EnvMapAnalyticBRDF_VS.glsl
+
+	default_params
+	{
+		param_named_auto worldMatrix world_matrix
+	}
+}
+
+// GLSL Pixel shader definition
+fragment_program EnvMapAnalyticBRDF_FS glsl
+{
+	source EnvMapAnalyticBRDF_FS.glsl
+	attach coordinateTransformations_FS
+	
+	default_params
+	{
+		param_named_auto eyePos camera_position
+		param_named front int 0
+		param_named back int 1
+	}
+
+}
+
+material EnvMapAnalyticBRDF
+{
+    // Material has one technique
+	technique
+	{
+        // This technique has one pass
+		pass
+		{
+            // Make this pass use the vertex shader defined above
+			vertex_program_ref EnvMapAnalyticBRDF_VS	
+			{
+			}
+            // Make this pass use the pixel shader defined above
+			fragment_program_ref EnvMapAnalyticBRDF_FS	
+			{
+			}
+
+			texture_unit 
+			{
+				texture ennis-front.dds
+			}
+			texture_unit 
+			{
+				texture ennis-back.dds
+			}
+		}
+	}
+}

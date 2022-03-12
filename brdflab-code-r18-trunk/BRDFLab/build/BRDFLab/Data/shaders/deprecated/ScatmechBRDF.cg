@@ -1,0 +1,320 @@
+/*
+	Copyright (c) 2009.
+		Adria Fores
+		Sumanta N. Pattanaik
+		Carles Bosch
+		Xavier Pueyo
+
+	Contact: adriafores@gmail.com	
+
+	This file is part of BRDFLab.
+
+    BRDFLab is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    BRDFLab is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with BRDFLab.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+struct app2vertex
+{
+	float4 f4Position	: POSITION;	// position (object sp
+	float2 uv		: TEXCOORD0;	// uv texture position
+};
+
+struct vertex2fragment
+{
+	float4 f4Position	: POSITION;	// position (clip space)
+	float4 position		: TEXCOORD0;
+	float3 normal		: TEXCOORD1;	// texcoord
+//	float texSize		: TEXCOORD1;	// texSize
+//	float max		: TEXCOORD2;
+	float4 f4Color		: COLOR;	// direct illu.
+
+};
+
+
+struct fragment2screen
+{
+	float4 f4Color	:COLOR;
+};
+
+float2 get2DCoord( float pos, float texwidth )
+{
+	float2 uv;
+
+	// Rectangular coordinate => ( 0..texwidth, 0..texwidth )
+	uv.y = floor( pos / texwidth );
+	uv.x = pos - texwidth * uv.y;		// pos % texwidth
+
+	// Convert to uniform space / normalize => ( 0..1, 0..1 )
+	uv = ( uv + 0.5 ) / texwidth;
+
+	return uv;
+}
+
+float3 polar2cart( float2 uv )
+{
+	float3 val = float3(0.,0.,0.);
+/*
+	val.x = cos(uv.x)*cos(uv.y);
+	val.y = cos(uv.x)*sin(uv.y);
+	val.z = sin(uv.x);
+*/
+
+	val.x = sin(uv.y)*cos(uv.x);
+	val.y = sin(uv.y)*sin(uv.x);
+	val.z = cos(uv.y);
+	
+
+	return val;
+}
+
+
+float2 cart2polar( float3 pos )
+{
+
+	float2 uv;
+
+	float p = sqrt(pos.x*pos.x+pos.y*pos.y+pos.z*pos.z);
+	float s = sqrt(pos.x*pos.x+pos.y*pos.y);
+	
+	if(0<=pos.x){
+		uv.x = asin(pos.y/s);
+	}else{
+		uv.x = 3.141519 - asin(pos.y/s);
+	}
+
+	uv.y = acos(pos.z/p);
+
+	return uv;
+}
+
+
+
+vertex2fragment mainVS
+(
+	app2vertex IN,
+
+	uniform sampler2D intensitys : register(s0),
+
+	uniform float4x4 worldViewProj,
+
+//	uniform float texWidth,
+
+	uniform float min,
+
+	uniform float thetaSize,
+
+	uniform float max,
+	
+	uniform float cubeRoot
+)
+{
+	vertex2fragment OUT;
+
+	float intensity;
+	
+	//if(IN.uv.y < 0.1)
+	//	intensity = tex2D(intensitys,float2(IN.uv.x,1.)).r;
+	//else if(IN.uv.y > 1.50)
+	//	intensity = tex2D(intensitys,float2(IN.uv.x,0.)).r;
+	//else
+
+
+	
+	float vary = 1/(thetaSize*2);
+
+	float2 uv = cart2polar(IN.f4Position.xyz);
+//	uv.x += 1.5708;
+	uv.x /= 2*3.141519;
+	uv.y /= (3.141519/2);
+
+	float coordV =lerp(0+vary,1-vary,uv.y);
+	
+	intensity = pow(tex2D(intensitys,float2(uv.x,coordV)).r,cubeRoot)*100;
+
+	//0.1* log(100.*s.I()+1.0);
+
+	float4 pos = IN.f4Position*intensity;
+	pos.w = 1.;
+
+//punt desplaçat
+	OUT.position = pos;
+
+	OUT.f4Position = mul(worldViewProj,pos);
+	
+
+
+	float2 newUV = float2(uv.x,coordV);
+
+
+	//OUT.normal = polar2cart(uv);//polar2cart(IN.uv);
+
+
+
+
+//obtain plusU
+	float2 uvPlusU = newUV + float2(1/(thetaSize),0.);
+
+	float2 uvPlusUD = uvPlusU;
+
+	uvPlusUD.x *= 2*3.141519;
+	uvPlusUD.y *= (3.141519/2);
+
+	float3 coordPlusU = normalize(polar2cart(uvPlusUD));
+
+	coordPlusU *= pow(tex2D(intensitys,uvPlusU).r,cubeRoot)*100;
+
+
+//obtain plusV
+	float2 uvPlusV = newUV + float2(0.,1/(thetaSize));
+
+	float2 uvPlusVD = uvPlusV;
+
+ 	uvPlusVD.x *= 2*3.141519;
+	uvPlusVD.y *= (3.141519/2);
+
+	float3 coordPlusV = normalize(polar2cart(uvPlusVD));
+
+	coordPlusV *= pow(tex2D(intensitys,uvPlusV).r,cubeRoot)*100;
+
+//vectors
+	float3 vectorU = normalize(coordPlusU-pos.xyz);
+	float3 vectorV = normalize(coordPlusV-pos.xyz);
+
+	OUT.normal = cross(vectorV,vectorU);
+
+
+//	OUT.texSize = thetaSize;
+//	OUT.uv = float2(IN.uv.x,coordV);
+//	OUT.max = max;
+
+	
+	//color...
+	float minA = pow(min,cubeRoot)*100;
+	float maxA = pow(max,cubeRoot)*100;
+
+
+	if(intensity>maxA)
+		intensity = maxA;
+	if(intensity<minA) 
+		intensity = minA;
+
+
+	intensity = (intensity-minA)/(maxA-minA);
+
+	if(intensity<=0.25){
+		OUT.f4Color = float4(0,4*intensity,1,1);
+	}else if(intensity<=0.5){
+		OUT.f4Color = float4(0,1,2-4*intensity,1);
+	}else if(intensity<=0.75){
+		OUT.f4Color = float4(4*intensity-2,1,0,1);
+	}else{
+		OUT.f4Color = float4(1,4-4*intensity,0,1);
+	}
+
+	return OUT;
+}
+
+
+fragment2screen maits
+(
+	vertex2fragment IN,
+//	uniform float3 lightPosition,
+	uniform float3 eyePosition,
+	uniform sampler2D intensitys : register(s0)
+)
+{
+	fragment2screen OUT;
+
+
+	float3 L = normalize(IN.position.xyz - eyePosition.xyz);
+		
+//	float ambient = 0.3;
+
+	//paint the lobe normal															
+	OUT.f4Color = float4((max(dot(L,IN.normal.xyz),0.))*IN.f4Color.xyz,1.);
+
+
+	return OUT;
+}
+
+fragment2screen mainPS
+(
+	vertex2fragment IN,
+//	uniform float3 lightPosition,
+	uniform float3 eyePosition
+//	uniform sampler2D intensitys : register(s0)
+)
+{
+	fragment2screen OUT;
+
+
+	float3 lightPosition = eyePosition;//float3(0.,0.,5.);
+
+	//lighting stuff
+	float3 P = IN.position.xyz;
+
+	float3 N = normalize(IN.normal);
+	float3 L = normalize(lightPosition - P);
+
+/*
+	float Ke = 0.;
+	float3 Ka = float3(1.,0.,0.);//IN.f4Color.xyz;
+	float3 Kd = float3(1.,0.,0.);//IN.f4Color.xyz;
+	float3 Ks = float3(1.,1.,1.);//IN.f4Color.xyz;
+	float3 shininess = 10;
+
+
+	// Compute the ambient term
+
+//	float3 ambient = Ka * float3(0.2,0.2,0.2);//Ka * globalAmbient;
+
+
+	// Compute the diffuse term
+
+	float3 L = normalize(lightPosition - P);
+
+	float diffuseLight = max(dot(N, L), 0);
+
+	float3 diffuse = Kd * float3(0.3,0.3,0.3) * diffuseLight;
+
+
+	// Compute the specular term
+
+	float3 V = normalize(eyePosition - P);
+
+	float3 H = normalize(L + V);
+
+	float specularLight = pow(max(dot(N, H), 0),shininess);
+
+	if (diffuseLight <= 0) specularLight = 0;
+
+	float3 specular = Ks * float3(1,1,1) * specularLight;
+
+
+
+	OUT.f4Color.xyz = diffuse + specular;
+
+	OUT.f4Color.w = 1;
+
+
+*/
+	float ambient = 0.3;
+
+	OUT.f4Color = (max(dot(N, L), 0)+ambient)*IN.f4Color;
+
+//	OUT.f4Color = float4(normalize(IN.normal),1.0);//IN.f4Color;////float4(0.5*normalize(IN.normal)+0.5,1.0);//IN.f4Color;//
+
+	return OUT;
+}
+

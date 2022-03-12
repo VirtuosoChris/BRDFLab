@@ -1,0 +1,121 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Type>MERLBRDFDatabase</Type>
+  <URL>http://www.merl.com/brdf/</URL>
+  <Name>../Data/measured/MERL/blue-metallic-paint.binary</Name>
+  <Format>isotropic</Format>
+ </Material>
+ <Fitting error="50.778365" readOnly="false" optimizerName="Levenberg-Marquardt">
+  <Material>
+   <Name>BlinnPhong</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.007051137756433474" channel1="0.005546374761241542" channel2="0.01278381829909348"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.01562430812483195" channel1="0.01513364033801787" channel2="0.03823616493549284"/>
+    <Lobe>
+     <Model>BlinnPhong</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Exponent="51.39526802514313"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="24.051283" readOnly="false" optimizerName="Levenberg-Marquardt">
+  <Material>
+   <Name>Lafortune</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.005488388717530914" channel1="0.004069112958988819" channel2="0.01404134787405865"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.1153273518445977" channel1="0.1114437133379241" channel2="0.2456798245899603"/>
+    <Lobe>
+     <Model>LafortuneIso</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Cxy="-0.851355779163724" Cz="0.8036768848522409" Exponent="17.29569097816708"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="20.197901" readOnly="false" optimizerName="Levenberg-Marquardt">
+  <Material>
+   <Name>Ward</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.003047013949559883" channel1="0.001697347710923541" channel2="0.009490831697695511"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.1329113478852641" channel1="0.1285262379841512" channel2="0.278460530225202"/>
+    <Lobe>
+     <Model>Ward</Model>
+     <Type>Anisotropic</Type>
+     <Parameters ax="0.2440664312343873"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="22.410862" readOnly="false" optimizerName="Levenberg-Marquardt">
+  <Material>
+   <Name>Ashikhmin</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.004137104760806497" channel1="0.00274380590074071" channel2="0.01688800927702861"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="0.0001509487508256318" channel1="0.0001460351101517099" channel2="0.0002718543046557879"/>
+    <Lobe>
+     <Model>AshikhminShirley</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Exponent="38.09099600997038" F0="400"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="24.646202" readOnly="false" optimizerName="Levenberg-Marquardt">
+  <Material>
+   <Name>CookTorrance</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3">
+    <ScalingFactors channel0="0.005778063718287971" channel1="0.004323647573518961" channel2="0.02054635078491214"/>
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Anisotropic</Type>
+     <Parameters value="1"/>
+    </Lobe>
+    <ScalingFactors channel0="2.878999100374664e-005" channel1="2.786690962568798e-005" channel2="5.056441846530027e-005"/>
+    <Lobe>
+     <Model>CookTorrance</Model>
+     <Type>Anisotropic</Type>
+     <Parameters m="0.2056610638821028" F0="400"/>
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+</BRDF>

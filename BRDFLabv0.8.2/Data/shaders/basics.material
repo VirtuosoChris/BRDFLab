@@ -1,0 +1,311 @@
+/*
+	Copyright (c) 2009.
+		Adria Fores
+		Sumanta N. Pattanaik
+		Carles Bosch
+		Xavier Pueyo
+
+	Contact: adriafores@gmail.com	
+
+	This file is part of BRDFLab.
+
+    BRDFLab is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    BRDFLab is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with BRDFLab.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+fragment_program uniformColor glsl
+{
+	source uniformColor.glsl
+}
+
+material red
+{
+   technique
+   {
+     pass
+     {
+
+        // Make this pass use the pixel shader defined above
+		fragment_program_ref uniformColor	
+		{
+			param_named color float3 1 0 0
+		}
+
+     } 
+   }
+ }
+
+material green
+{
+   technique
+   {
+     pass
+     {
+
+        // Make this pass use the pixel shader defined above
+		fragment_program_ref uniformColor	
+		{
+			param_named color float3 0 1 0
+		}
+
+     } 
+   }
+ }
+
+ 
+ material black
+{
+   technique
+   {
+     pass
+     {
+		point_size  10.0
+
+        // Make this pass use the pixel shader defined above
+		fragment_program_ref uniformColor	
+		{
+			param_named color float3 0 0 0
+		}
+	
+     } 
+   }
+ }
+
+
+
+material blue
+{
+   technique
+   {
+     pass
+     {
+	point_size  10.0
+        // Make this pass use the pixel shader defined above
+		fragment_program_ref uniformColor	
+		{
+			param_named color float3 0 0 1
+		}
+	
+     } 
+   }
+ }
+
+material orange
+{
+   technique
+   {
+     pass
+     {
+		point_size  5.0
+	
+        // Make this pass use the pixel shader defined above
+		fragment_program_ref uniformColor	
+		{
+			param_named color float3 1 0.6470588235294117974 0
+		}	
+
+     } 
+   }
+ }
+
+material white
+{
+   technique
+   {
+     pass
+     {
+		point_size  5.0
+
+        // Make this pass use the pixel shader defined above
+		fragment_program_ref uniformColor	
+		{
+			param_named color float3 1 1 1
+		}	
+     } 
+   }
+ } 
+
+
+material greenSimple
+{
+   technique
+   {
+     pass
+     {
+		ambient 0. 0.2 0.
+		diffuse 0. 0.6 0.
+		specular 1. 1. 1. 25
+     } 
+   }
+ }
+ 
+
+
+material sunMaterial
+{
+   technique
+   {
+     pass
+     {
+	ambient 1 1 1
+     } 
+   }
+ }
+ 
+ material prova
+{
+   technique
+   {
+     pass
+     {
+	
+		texture_unit
+		{
+			texture four_NormHeight.dds 2d
+		}
+
+
+     } 
+   }
+ }
+ 
+ material Overlay1
+{
+   technique
+   {
+     pass
+     {
+	
+		texture_unit
+		{
+			//texture lines.png 2d
+		}
+
+
+     } 
+   }
+ }
+
+
+material Checkboard
+{
+   technique
+   {
+     pass
+     {
+	
+		texture_unit
+		{
+			texture lines.png 2d
+		}
+
+
+     } 
+   }
+ }
+
+material vertexColour
+{
+ 	receive_shadows off
+   technique
+   {
+     pass
+     {
+	point_size  10.0
+
+	ambient vertexcolour
+	diffuse vertexcolour
+
+	lighting off
+	
+
+	
+     } 
+   }
+ }
+ 
+ 
+ material GardenSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture cubescene_fr.jpg cubescene_bk.jpg cubescene_lf.jpg cubescene_rt.jpg cubescene_up.jpg cubescene_dn.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material SpaceSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture stevecube.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material PoolSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture cubemap_fr.jpg cubemap_bk.jpg cubemap_lf.jpg cubemap_rt.jpg cubemap_up.jpg cubemap_dn.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+
+material HDRSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				//cubic_texture beach_cross.hdr combinedUVW 
+				cubic_texture cubemap_fr.jpg cubemap_bk.jpg cubemap_lf.jpg cubemap_rt.jpg cubemap_up.jpg cubemap_dn.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}

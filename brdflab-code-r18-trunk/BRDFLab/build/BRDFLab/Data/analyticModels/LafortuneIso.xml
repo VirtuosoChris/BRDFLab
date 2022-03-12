@@ -1,0 +1,55 @@
+<!DOCTYPE BRDFModel>
+<AnalyticBRDFModel name="LafortuneIso" type="Isotropic" specularLobeDirection="Mirror">
+  <Parameters>
+    <Parameter name="Cxy" defaultVal="-1." lowBound="-10." highBound="+10."/>
+    <Parameter name="Cz" defaultVal="1." lowBound="-10." highBound="+10."/>
+    <Parameter name="Exponent" defaultVal="5." lowBound="0." highBound="1.0e+5"/>
+  </Parameters>;
+  <Equation>
+    inside = Cxy*ux*vx+Cxy*uy*vy+Cz*uz*vz;
+    if(inside>0, inside^Exponent*(Exponent+2.)/(2*(_pi*max(max(abs(Cxy),abs(Cz))^Exponent))), 0.)
+  </Equation>
+  <Equation_GLSL>
+    /*
+    The function returns the computation of the BRDF in a float value.
+    The name of the function must be ModelNameBRDF
+    The parameters passed to the function must be always the same string: (vec3 u, vec3 v, int j)
+
+    To access the parameters, simply use the params array, params[j] will be the first parameter defined above (in this example "Cxy"),
+    param[j+1] will be "Cz", and param[j+2] will be the parameter "n".
+
+    */
+    float LafortuneIsoBRDF(vec3 u, vec3 v, int j)
+    {
+
+    float Cxy = params[j];
+    float Cz = params[j+1];
+    float n = params[j+2];
+
+    float dotp = dot(u*vec3(Cxy,Cxy,Cz), v);
+    float nfactor = (n+2.) /(6.28319*pow(max(abs(Cxy),abs(Cz)),n));
+
+    return pow(max(0.,dotp),n) * nfactor;
+    }
+
+  </Equation_GLSL>
+  <PDF_GLSL>
+    float LafortuneIsoPDF(vec3 u, vec3 v, int j)
+    {
+    return (params[j+2]+1.)*pow(u.z,params[j+2])/6.28319;
+    }
+  </PDF_GLSL>
+  <ImportanceSampling_GLSL>
+    vec2 LafortuneIsoImportanceSampling(vec2 rand, int j)
+    {
+    return vec2(2.*3.141519*rand.x,acos(pow(rand.y,(1./(params[j+2]+1.)))));
+    }
+  </ImportanceSampling_GLSL>
+  <ComputeMirrorDirection_GLSL>
+    vec3 LafortuneIsoComputeReflectionDirection(vec3 eyeDir, int j)
+    {
+    return normalize(eyeDir*vec3(params[j+0], params[j+0], params[j+1]));
+    }
+  </ComputeMirrorDirection_GLSL>
+</AnalyticBRDFModel>
+

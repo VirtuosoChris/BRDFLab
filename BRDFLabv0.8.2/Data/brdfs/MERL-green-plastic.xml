@@ -1,0 +1,142 @@
+<!DOCTYPE BRDF>
+<BRDF>
+ <Info>
+  <Program>BRDFLab</Program>
+  <Version>0.1</Version>
+  <URL>http://ima.udg.edu/~afores/BRDFLab</URL>
+  <Contact>afores@ima.udg.edu</Contact>
+  <Data>17/03/2009</Data>
+ </Info>
+ <Material>
+  <Type>MERLBRDFDatabase</Type>
+  <URL>http://www.merl.com/brdf/</URL>
+  <Name>../Data/measured/MERL/green-plastic.binary</Name>
+  <Format>isotropic</Format>
+ </Material>
+ <Fitting error="0.0495" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>Ngan-Ward</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3" >
+    <ScalingFactors channel0="0.0138" channel1="0.0695" channel2="0.0528" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.0071" channel1="0.00476" channel2="0.00314" />
+    <Lobe>
+     <Model>Ward</Model>
+     <Type>Isotropic</Type>
+     <Parameters ax="0.00885" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.0483" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>Ngan-WardDuer</Name>      
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3" >
+    <ScalingFactors channel0="0.0136" channel1="0.0694" channel2="0.0526" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.0054" channel1="0.00359" channel2="0.00245" />
+    <Lobe>
+     <Model>WardDuer</Model>
+     <Type>Isotropic</Type>
+     <Parameters ax="0.00956" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.0535" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>Ngan-BlinnPhong</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3" >
+    <ScalingFactors channel0="0.016" channel1="0.071" channel2="0.0538" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.000998" channel1="0.00068" channel2="0.000413" />
+    <Lobe>
+     <Model>BlinnPhong</Model>
+     <Type>Isotropic</Type>
+     <Parameters Exponent="8.12e+004" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.0482" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>Ngan-Lafortune</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3" >
+    <ScalingFactors channel0="0.0168" channel1="0.0717" channel2="0.054" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.511" channel1="0.233" channel2="0.224" />
+    <Lobe>
+     <Model>LafortuneIso</Model>
+     <Type>Isotropic</Type>
+     <Parameters Cxy="-0.579" Cz="0.575" Exponent="3.6e+003" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.0483" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>Ngan-CookTorrance</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3" >
+    <ScalingFactors channel0="0.0136" channel1="0.0694" channel2="0.0526" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.00539" channel1="0.00359" channel2="0.00245" />
+    <Lobe>
+     <Model>CookTorrance</Model>
+     <Type>Isotropic</Type>
+     <Parameters m="0.00954" F0="0.999" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+ <Fitting error="0.0463" readOnly="true" optimizerName="none" >
+  <Material>
+   <Name>Ngan-AshikhminShirley</Name>
+   <Type>Analytic</Type>
+   <LobeCombination>Linear</LobeCombination>
+   <Parameters nLobes="2" nChannels="3" >
+    <ScalingFactors channel0="0.013" channel1="0.0693" channel2="0.0522" />
+    <Lobe>
+     <Model>Lambertian</Model>
+     <Type>Isotropic</Type>
+     <Parameters/>
+    </Lobe>
+    <ScalingFactors channel0="0.0651" channel1="0.0382" channel2="0.0307" />
+    <Lobe>
+     <Model>AshikhminShirley</Model>
+     <Type>Anisotropic</Type>
+     <Parameters Exponent="6.31e+003" F0="0.0931" />
+    </Lobe>
+   </Parameters>
+  </Material>
+ </Fitting>
+</BRDF>

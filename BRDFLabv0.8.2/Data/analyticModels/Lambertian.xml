@@ -1,0 +1,24 @@
+<!DOCTYPE BRDFModel>
+<AnalyticBRDFModel name="Lambertian" type="Isotropic" >
+  <Parameters>
+    <Parameter name="value" defaultVal="1." lowBound="0." highBound="500."/>
+  </Parameters>;
+  <Equation>
+    value
+  </Equation>
+  <Equation_GLSL>
+    /*
+    The function returns the computation of the BRDF in a float value.
+    The name of the function must be ModelNameBRDF
+    The parameters passed to the function must be always the same string: (vec3 u, vec3 v, inout int j)
+    
+    To access the parameters, simply use the params array, params[j] will be the first parameter defined above (in this example "value").
+    */
+    float LambertianBRDF(vec3 u, vec3 v, inout int j)
+    {
+      return params[j];
+    }
+
+  </Equation_GLSL>
+</AnalyticBRDFModel>
+

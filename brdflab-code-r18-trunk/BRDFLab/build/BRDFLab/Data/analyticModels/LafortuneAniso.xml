@@ -1,0 +1,56 @@
+<!DOCTYPE BRDFModel>
+<AnalyticBRDFModel name="LafortuneAniso" type="Anisotropic" specularLobeDirection="Mirror">
+  <Parameters>
+    <Parameter name="Cx" defaultVal="-1." lowBound="-10." highBound="+10."/>
+    <Parameter name="Cy" defaultVal="-1." lowBound="-10." highBound="+10."/>
+    <Parameter name="Cz" defaultVal="1." lowBound="-10." highBound="+10."/>
+    <Parameter name="Exponent" defaultVal="5." lowBound="0." highBound="1.0e+5"/>
+  </Parameters>
+  <Equation>
+    inside = Cx*ux*vx+Cy*uy*vy+Cz*uz*vz;
+    if(inside>0, inside^Exponent*(Exponent+2.)/(2*(_pi*max(max(abs(Cx),abs(Cy),abs(Cz))^Exponent))), 0.)
+  </Equation>
+  <Equation_GLSL>
+    /*
+    The function returns the computation of the BRDF in a float value.
+    The name of the function must be ModelNameBRDF
+    The parameters passed to the function must be always the same string: (vec3 u, vec3 v, inout int j)
+
+    To access the parameters, simply use the params array, params[j] will be the first parameter defined above (in this example "Cxy"),
+    param[j+1] will be "Cz", and param[j+2] will be the parameter "n".
+
+    */
+    float LafortuneAnisoBRDF(vec3 u, vec3 v, int j)
+    {
+
+    float Cx = params[j];
+    float Cy = params[j+1];
+    float Cz = params[j+2];
+    float n = params[j+3];
+
+    float dotp = dot(u*vec3(Cx,Cy,Cz), v);
+    float nfactor = (n+2.) /(6.28319*pow(max(abs(Cx),max(abs(Cy),abs(Cz))),n));
+
+    return pow(max(0.,dotp),n) * nfactor;
+    }
+
+  </Equation_GLSL>
+  <PDF_GLSL>
+    float LafortuneAnisoPDF(vec3 u, vec3 v, int j)
+    {
+    return (params[j+3]+1.)*pow(u.z,params[j+3])/6.28319;
+    }
+  </PDF_GLSL>
+  <ImportanceSampling_GLSL>
+    vec2 LafortuneAnisoImportanceSampling(vec2 rand, int j)
+    {
+    return vec2(2.*3.141519*rand.x,acos(pow(rand.y,(1./(params[j+3]+1.)))));
+    }
+  </ImportanceSampling_GLSL>
+  <ComputeMirrorDirection_GLSL>
+    vec3 LafortuneAnisoComputeReflectionDirection(vec3 eyeDir, int j){
+    return normalize(eyeDir*vec3(params[j+0], params[j+1], params[j+2]));
+    }
+  </ComputeMirrorDirection_GLSL>
+</AnalyticBRDFModel>
+
