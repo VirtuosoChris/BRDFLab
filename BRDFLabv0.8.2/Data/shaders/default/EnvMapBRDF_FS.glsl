@@ -41,7 +41,7 @@ uniform sampler2D front;
 uniform sampler2D back;
 
 
-uniform float fixed;	// implementation (fixed if true(1) and linear if false(0)		// TODO: use this as a define?
+uniform float vFixed;	// implementation (fixed if true(1) and linear if false(0)		// TODO: use this as a define?
 uniform float channels;	// number of channels/wavelenghts					// TODO: use this as a define?
 uniform float lobes;	// number of lobes
 uniform int nSamplesPerLobe;

@@ -28,7 +28,7 @@ attribute vec4 vertex;
 
 uniform vec3 incidentVector;					// incident direction
 
-uniform float fixed;				// implementation (fixed if true(1) and linear if false(0)		// TODO: use this as a define?
+uniform float vFixed;				// implementation (fixed if true(1) and linear if false(0)		// TODO: use this as a define?
 uniform float channels;			// number of channels/wavelenghts					// TODO: use this as a define?
 uniform float lobes;				// number of lobes
 uniform float params[100];		// list of parameters (lobe type, scale factor, BRDF parameters, ...)	// TODO: 100?
